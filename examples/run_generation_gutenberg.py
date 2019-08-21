@@ -202,7 +202,7 @@ def main():
     print(args)
     outs = []
     # load PG data ###############
-    prompts_dict = get_gutenberg_pieces([1000]*10)
+    prompts_dict = get_gutenberg_pieces([100]*40)
     ################
     for PGID, raw_text in prompts_dict.items():
         # raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
