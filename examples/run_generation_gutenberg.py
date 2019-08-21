@@ -201,8 +201,9 @@ def main():
 
     print(args)
     outs = []
-    # load PG data
-    prompts_dict = get_gutenberg_pieces([100]*10)
+    # load PG data ###############
+    prompts_dict = get_gutenberg_pieces([1000]*10)
+    ################
     for PGID, raw_text in prompts_dict.items():
         # raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
         if args.model_type in ["transfo-xl", "xlnet"]:
@@ -230,7 +231,7 @@ def main():
             }
         )
     import pandas as pd
-    pd.to_pickle(outs, "tmpdata.p")
+    pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
 
 
 if __name__ == '__main__':
