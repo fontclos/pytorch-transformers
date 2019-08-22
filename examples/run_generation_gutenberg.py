@@ -201,8 +201,9 @@ def main():
 
     print(args)
     outs = []
+    import pandas as pd
     # load PG data ###############
-    prompts_dict = get_gutenberg_pieces([100]*40)
+    prompts_dict = get_gutenberg_pieces([500]*100)
     ################
     for PGID, raw_text in prompts_dict.items():
         # raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
@@ -230,7 +231,7 @@ def main():
                 "output": text
             }
         )
-    import pandas as pd
+        pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
     pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
 
 
