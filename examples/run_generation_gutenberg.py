@@ -210,6 +210,8 @@ def main():
         if args.model_type in ["transfo-xl", "xlnet"]:
             # Models with memory likes to have a long prompt for short inputs.
             raw_text = (args.padding_text if args.padding_text else PADDING_TEXT) + raw_text
+            # Make sure no more than 1024 characters
+            raw_text = raw_text[:1024]
         context_tokens = tokenizer.encode(raw_text)
         out = sample_sequence(
             model=model,
