@@ -206,34 +206,35 @@ def main():
     prompts_dict = get_gutenberg_pieces([300]*1000)
     ################
     for PGID, raw_text in prompts_dict.items():
-        # raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
-        if args.model_type in ["transfo-xl", "xlnet"]:
-            # Models with memory likes to have a long prompt for short inputs.
-            raw_text = (args.padding_text if args.padding_text else PADDING_TEXT) + raw_text
-            # Make sure no more than 1024 characters
-            raw_text = raw_text[:1024]
-        context_tokens = tokenizer.encode(raw_text)
-        out = sample_sequence(
-            model=model,
-            context=context_tokens,
-            length=args.length,
-            temperature=args.temperature,
-            top_k=args.top_k,
-            top_p=args.top_p,
-            device=args.device,
-            is_xlnet=bool(args.model_type == "xlnet"),
-        )
-        out = out[0, len(context_tokens):].tolist()
-        text = tokenizer.decode(out, clean_up_tokenization_spaces=True)
-        outs.append(
-            {
-                "model": args.model_type,
-                "PGID": PGID,
-                "input": raw_text,
-                "output": text
-            }
-        )
-        pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
+        try:
+            # raw_text = args.prompt if args.prompt else input("Model prompt >>> ")
+            if args.model_type in ["transfo-xl", "xlnet"]:
+                # Models with memory likes to have a long prompt for short inputs.
+                raw_text = (args.padding_text if args.padding_text else PADDING_TEXT) + raw_text
+            context_tokens = tokenizer.encode(raw_text)
+            out = sample_sequence(
+                model=model,
+                context=context_tokens,
+                length=args.length,
+                temperature=args.temperature,
+                top_k=args.top_k,
+                top_p=args.top_p,
+                device=args.device,
+                is_xlnet=bool(args.model_type == "xlnet"),
+            )
+            out = out[0, len(context_tokens):].tolist()
+            text = tokenizer.decode(out, clean_up_tokenization_spaces=True)
+            outs.append(
+                {
+                    "model": args.model_type,
+                    "PGID": PGID,
+                    "input": raw_text,
+                    "output": text
+                }
+            )
+            pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
+        except:
+            pass
     pd.to_pickle(outs, "gpt2-gutenberg-prompts.p")
 
 
