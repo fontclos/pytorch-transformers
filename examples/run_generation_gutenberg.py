@@ -203,7 +203,7 @@ def main():
     outs = []
     import pandas as pd
     # load PG data ###############
-    prompts_dict = get_gutenberg_pieces([300]*1000)
+    prompts_dict = get_gutenberg_pieces([300]*100)
     ################
     for PGID, raw_text in prompts_dict.items():
         try:
